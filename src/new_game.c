@@ -143,7 +143,6 @@ void Sav2_ClearSetDefault(void)
 {
     ClearSav2();
     SetDefaultOptions();
-    SetRandomStarters();
 }
 
 void ResetMenuAndMonGlobals(void)
@@ -214,6 +213,8 @@ void NewGameInitData(void)
     WipeTrainerNameRecords();
     ResetTrainerHillResults();
     ResetContestLinkResults();
+    SetRandomStarters();
+    SetDefaultOptions();
 }
 
 static void ResetMiniGamesRecords(void)
