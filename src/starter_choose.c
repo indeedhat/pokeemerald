@@ -358,9 +358,9 @@ u16 GetStarterPokemon(u16 chosenStarterId)
 
 
     if (!gSaveBlock2Ptr->randomStarterMons[0]) {
-        gSaveBlock2Ptr->randomStarterMons[0] = (Random() % (NUM_SPECIES - 1)) + 1;
-        gSaveBlock2Ptr->randomStarterMons[1] = (Random() % (NUM_SPECIES - 1)) + 1;
-        gSaveBlock2Ptr->randomStarterMons[2] = (Random() % (NUM_SPECIES - 1)) + 1;
+        gSaveBlock2Ptr->randomStarterMons[0] = RandomPokemonSpecies();
+        gSaveBlock2Ptr->randomStarterMons[1] = RandomPokemonSpecies();
+        gSaveBlock2Ptr->randomStarterMons[2] = RandomPokemonSpecies();
     }
 
     return gSaveBlock2Ptr->optionsRandomEncounters 

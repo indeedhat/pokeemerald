@@ -102,9 +102,9 @@ static void SetDefaultOptions(void)
 
 static void SetRandomStarters(void)
 {
-    gSaveBlock2Ptr->randomStarterMons[0] = (Random() % (NUM_SPECIES - 1)) + 1;
-    gSaveBlock2Ptr->randomStarterMons[1] = (Random() % (NUM_SPECIES - 1)) + 1;
-    gSaveBlock2Ptr->randomStarterMons[2] = (Random() % (NUM_SPECIES - 1)) + 1;
+    gSaveBlock2Ptr->randomStarterMons[0] = RandomPokemonSpecies();
+    gSaveBlock2Ptr->randomStarterMons[1] = RandomPokemonSpecies();
+    gSaveBlock2Ptr->randomStarterMons[2] = RandomPokemonSpecies();
 }
 
 static void ClearPokedexFlags(void)

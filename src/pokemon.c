@@ -7131,3 +7131,13 @@ u8 *MonSpritesGfxManager_GetSpritePtr(u8 managerId, u8 spriteNum)
         return gfx->spritePointers[spriteNum];
     }
 }
+
+u16 RandomPokemonSpecies()
+{
+    u16 species = SPECIES_NONE;
+    do {
+        species = (Random() % (NUM_SPECIES - 1)) +1;
+    } while (species >= SPECIES_BULBASAUR && species <= SPECIES_CHIMECHO);
+
+    return species;
+}

@@ -385,7 +385,7 @@ static void CreateWildMon(u16 species, u8 level)
     if (gSaveBlock2Ptr->optionsRandomEncounters) {
         // NUM_SPECIES - 1 is any species except egg
         // +1 makes the id inclusive in the scope
-        species = (Random() % (NUM_SPECIES - 1)) +1;
+        species = RandomPokemonSpecies();
     }
 
     ZeroEnemyPartyMons();
