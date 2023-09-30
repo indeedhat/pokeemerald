@@ -19,6 +19,8 @@ This is a decompilation of Pokémon Emerald.
 - [ ] fix the instant text speed setting
 - [ ] update settings page to have more nuzlocke specific settings
 - [ ] update settings page to be scrollable for more settings
+- [ ] don't let rare candies level you up higher than the highest pokemon you have defeated
+- [ ] limit each route to only a few species
 
 It builds the following ROM:
 

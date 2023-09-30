@@ -7136,8 +7136,13 @@ u16 RandomPokemonSpecies()
 {
     u16 species = SPECIES_NONE;
     do {
-        species = (Random() % (NUM_SPECIES - 1)) +1;
-    } while (species < SPECIES_BULBASAUR || species > SPECIES_CHIMECHO);
+        species = (Random() % SPECIES_UNOWN_QMARK) +1;
+    } while (
+        species < SPECIES_BULBASAUR 
+            || species > SPECIES_UNOWN_QMARK
+            || species == SPECIES_EGG
+            || (species >= SPECIES_OLD_UNOWN_B && species <= SPECIES_OLD_UNOWN_Z)
+    );
 
     return species;
 }
