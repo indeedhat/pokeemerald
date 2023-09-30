@@ -8,6 +8,18 @@ Basic changes for a more interesting nuzlocke
 
 This is a decompilation of Pokémon Emerald.
 
+## Wishlist
+- [ ] update the bag to have stacks of 999
+- [ ] include trainer/gyms in the random pokemon option
+- [ ] add uber repels that last longer
+- [ ] force player to name all pokemon
+- [ ] auto move pokemon to the box when they die
+- [ ] add an indicator to show if you have had your encounter in the current map
+- [ ] limit water pokemon to fishing encounters... maybe
+- [ ] fix the instant text speed setting
+- [ ] update settings page to have more nuzlocke specific settings
+- [ ] update settings page to be scrollable for more settings
+
 It builds the following ROM:
 
 * [**pokeemerald.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=1961) `sha1: f3ae088181bf583e55daf962a92bb46f4f1d07b7`
