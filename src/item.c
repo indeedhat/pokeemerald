@@ -668,6 +668,7 @@ void ClearBag(void)
     }
 }
 
+
 u16 CountTotalItemQuantityInBag(u16 itemId)
 {
     u16 i;
