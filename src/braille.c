@@ -9,7 +9,7 @@
 
 ALIGNED(4)
 static const u8 sScrollDistances[] = {
-    [OPTIONS_TEXT_SPEED_SLOW] = 1,
+    [OPTIONS_TEXT_SPEED_INSTANT] = 4,
     [OPTIONS_TEXT_SPEED_MID] = 2,
     [OPTIONS_TEXT_SPEED_FAST] = 4,
 };

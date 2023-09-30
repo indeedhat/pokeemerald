@@ -22,7 +22,13 @@
 #define tBattleStyle data[3]
 #define tSound data[4]
 #define tButtonMode data[5]
+
+#define RANDOM_ENCOUNTERS
+#ifdef RANDOM_ENCOUNTERS
+#define tRandomEncounters data[6]
+#else
 #define tWindowFrameType data[6]
+#endif
 
 enum
 {
@@ -31,7 +37,11 @@ enum
     MENUITEM_BATTLESTYLE,
     MENUITEM_SOUND,
     MENUITEM_BUTTONMODE,
+#ifdef RANDOM_ENCOUNTERS
+    MENUITEM_RANDOM_ENCOUNTERS,
+#else
     MENUITEM_FRAMETYPE,
+#endif
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -47,7 +57,11 @@ enum
 #define YPOS_BATTLESTYLE  (MENUITEM_BATTLESTYLE * 16)
 #define YPOS_SOUND        (MENUITEM_SOUND * 16)
 #define YPOS_BUTTONMODE   (MENUITEM_BUTTONMODE * 16)
+#ifdef RANDOM_ENCOUNTERS
+#define YPOS_RAND_ENCOUNTER    (MENUITEM_RANDOM_ENCOUNTERS * 16)
+#else
 #define YPOS_FRAMETYPE    (MENUITEM_FRAMETYPE * 16)
+#endif
 
 static void Task_OptionMenuFadeIn(u8 taskId);
 static void Task_OptionMenuProcessInput(u8 taskId);
@@ -62,8 +76,13 @@ static u8 BattleStyle_ProcessInput(u8 selection);
 static void BattleStyle_DrawChoices(u8 selection);
 static u8 Sound_ProcessInput(u8 selection);
 static void Sound_DrawChoices(u8 selection);
+#ifdef RANDOM_ENCOUNTERS
+static u8 RandomEncounters_ProcessInput(u8 selection);
+static void RandomEncounters_DrawChoices(u8 selection);
+#else
 static u8 FrameType_ProcessInput(u8 selection);
 static void FrameType_DrawChoices(u8 selection);
+#endif
 static u8 ButtonMode_ProcessInput(u8 selection);
 static void ButtonMode_DrawChoices(u8 selection);
 static void DrawHeaderText(void);
@@ -83,7 +102,11 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_BATTLESTYLE] = gText_BattleStyle,
     [MENUITEM_SOUND]       = gText_Sound,
     [MENUITEM_BUTTONMODE]  = gText_ButtonMode,
+#ifdef RANDOM_ENCOUNTERS
+    [MENUITEM_RANDOM_ENCOUNTERS]   = gText_RandomEncounters,
+#else
     [MENUITEM_FRAMETYPE]   = gText_Frame,
+#endif
     [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
 };
 
@@ -233,14 +256,22 @@ void CB2_InitOptionMenu(void)
         gTasks[taskId].tBattleStyle = gSaveBlock2Ptr->optionsBattleStyle;
         gTasks[taskId].tSound = gSaveBlock2Ptr->optionsSound;
         gTasks[taskId].tButtonMode = gSaveBlock2Ptr->optionsButtonMode;
+#ifdef RANDOM_ENCOUNTERS
+        gTasks[taskId].tRandomEncounters = gSaveBlock2Ptr->optionsRandomEncounters;
+#else
         gTasks[taskId].tWindowFrameType = gSaveBlock2Ptr->optionsWindowFrameType;
+#endif
 
         TextSpeed_DrawChoices(gTasks[taskId].tTextSpeed);
         BattleScene_DrawChoices(gTasks[taskId].tBattleSceneOff);
         BattleStyle_DrawChoices(gTasks[taskId].tBattleStyle);
         Sound_DrawChoices(gTasks[taskId].tSound);
         ButtonMode_DrawChoices(gTasks[taskId].tButtonMode);
+#ifdef RANDOM_ENCOUNTERS
+        RandomEncounters_DrawChoices(gTasks[taskId].tRandomEncounters);
+#else
         FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
+#endif
         HighlightOptionMenuItem(gTasks[taskId].tMenuSelection);
 
         CopyWindowToVram(WIN_OPTIONS, COPYWIN_FULL);
@@ -329,6 +360,15 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tButtonMode)
                 ButtonMode_DrawChoices(gTasks[taskId].tButtonMode);
             break;
+#ifdef RANDOM_ENCOUNTERS
+        case MENUITEM_RANDOM_ENCOUNTERS:
+            previousOption = gTasks[taskId].tRandomEncounters;
+            gTasks[taskId].tRandomEncounters = RandomEncounters_ProcessInput(gTasks[taskId].tRandomEncounters);
+
+            if (previousOption != gTasks[taskId].tRandomEncounters)
+                RandomEncounters_DrawChoices(gTasks[taskId].tRandomEncounters);
+            break;
+#else
         case MENUITEM_FRAMETYPE:
             previousOption = gTasks[taskId].tWindowFrameType;
             gTasks[taskId].tWindowFrameType = FrameType_ProcessInput(gTasks[taskId].tWindowFrameType);
@@ -336,6 +376,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tWindowFrameType)
                 FrameType_DrawChoices(gTasks[taskId].tWindowFrameType);
             break;
+#endif
         default:
             return;
         }
@@ -355,7 +396,11 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsBattleStyle = gTasks[taskId].tBattleStyle;
     gSaveBlock2Ptr->optionsSound = gTasks[taskId].tSound;
     gSaveBlock2Ptr->optionsButtonMode = gTasks[taskId].tButtonMode;
+#ifdef RANDOM_ENCOUNTERS
+    gSaveBlock2Ptr->optionsRandomEncounters = gTasks[taskId].tRandomEncounters;
+#else
     gSaveBlock2Ptr->optionsWindowFrameType = gTasks[taskId].tWindowFrameType;
+#endif
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -421,21 +466,21 @@ static u8 TextSpeed_ProcessInput(u8 selection)
 static void TextSpeed_DrawChoices(u8 selection)
 {
     u8 styles[3];
-    s32 widthSlow, widthMid, widthFast, xMid;
+    s32 widthInst, widthMid, widthFast, xMid;
 
     styles[0] = 0;
     styles[1] = 0;
     styles[2] = 0;
     styles[selection] = 1;
 
-    DrawOptionMenuChoice(gText_TextSpeedSlow, 104, YPOS_TEXTSPEED, styles[0]);
+    DrawOptionMenuChoice(gText_TextSpeedInstant, 104, YPOS_TEXTSPEED, styles[0]);
 
-    widthSlow = GetStringWidth(FONT_NORMAL, gText_TextSpeedSlow, 0);
+    widthInst = GetStringWidth(FONT_NORMAL, gText_TextSpeedInstant, 0);
     widthMid = GetStringWidth(FONT_NORMAL, gText_TextSpeedMid, 0);
     widthFast = GetStringWidth(FONT_NORMAL, gText_TextSpeedFast, 0);
 
     widthMid -= 94;
-    xMid = (widthSlow - widthMid - widthFast) / 2 + 104;
+    xMid = (widthInst - widthMid - widthFast) / 2 + 104;
     DrawOptionMenuChoice(gText_TextSpeedMid, xMid, YPOS_TEXTSPEED, styles[1]);
 
     DrawOptionMenuChoice(gText_TextSpeedFast, GetStringRightAlignXOffset(FONT_NORMAL, gText_TextSpeedFast, 198), YPOS_TEXTSPEED, styles[2]);
@@ -511,6 +556,35 @@ static void Sound_DrawChoices(u8 selection)
     DrawOptionMenuChoice(gText_SoundStereo, GetStringRightAlignXOffset(FONT_NORMAL, gText_SoundStereo, 198), YPOS_SOUND, styles[1]);
 }
 
+#ifdef RANDOM_ENCOUNTERS
+static u8 RandomEncounters_ProcessInput(u8 selection)
+{
+    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    {
+        selection ^= 1;
+        sArrowPressed = TRUE;
+    }
+
+    return selection;
+}
+
+static void RandomEncounters_DrawChoices(u8 selection)
+{
+    u8 styles[2];
+
+    styles[0] = 0;
+    styles[1] = 0;
+    styles[selection ? 0 : 1] = 1;
+
+    DrawOptionMenuChoice(gText_RandomEncountersOn, 104, YPOS_RAND_ENCOUNTER, styles[0]);
+    DrawOptionMenuChoice(
+        gText_RandomEncountersOff,
+        GetStringRightAlignXOffset(FONT_NORMAL, gText_RandomEncountersOff, 198),
+        YPOS_RAND_ENCOUNTER,
+        styles[1]
+    );
+}
+#else
 static u8 FrameType_ProcessInput(u8 selection)
 {
     if (JOY_NEW(DPAD_RIGHT))
@@ -568,6 +642,7 @@ static void FrameType_DrawChoices(u8 selection)
     DrawOptionMenuChoice(gText_FrameType, 104, YPOS_FRAMETYPE, 0);
     DrawOptionMenuChoice(text, 128, YPOS_FRAMETYPE, 1);
 }
+#endif
 
 static u8 ButtonMode_ProcessInput(u8 selection)
 {
