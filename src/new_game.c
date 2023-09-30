@@ -45,6 +45,7 @@
 #include "mystery_gift.h"
 #include "union_room_chat.h"
 #include "constants/items.h"
+#include "constants/species.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 
@@ -90,12 +91,20 @@ static void InitPlayerTrainerId(void)
 // L=A isnt set here for some reason.
 static void SetDefaultOptions(void)
 {
-    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
+    gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
     gSaveBlock2Ptr->optionsWindowFrameType = 0;
     gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_MONO;
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
+    gSaveBlock2Ptr->optionsRandomEncounters = 0;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
+}
+
+static void SetRandomStarters(void)
+{
+    gSaveBlock2Ptr->randomStarterMons[0] = (Random() % (NUM_SPECIES - 1)) + 1;
+    gSaveBlock2Ptr->randomStarterMons[1] = (Random() % (NUM_SPECIES - 1)) + 1;
+    gSaveBlock2Ptr->randomStarterMons[2] = (Random() % (NUM_SPECIES - 1)) + 1;
 }
 
 static void ClearPokedexFlags(void)
@@ -134,6 +143,7 @@ void Sav2_ClearSetDefault(void)
 {
     ClearSav2();
     SetDefaultOptions();
+    SetRandomStarters();
 }
 
 void ResetMenuAndMonGlobals(void)

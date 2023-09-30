@@ -23,6 +23,8 @@
 #include "window.h"
 #include "constants/songs.h"
 #include "constants/rgb.h"
+#include "constants/species.h"
+#include "random.h"
 
 #define STARTER_MON_COUNT   3
 
@@ -112,10 +114,11 @@ static const u8 sStarterLabelCoords[STARTER_MON_COUNT][2] =
 
 static const u16 sStarterMon[STARTER_MON_COUNT] =
 {
-    SPECIES_TREECKO,
-    SPECIES_TORCHIC,
-    SPECIES_MUDKIP,
+    SPECIES_CHIKORITA,
+    SPECIES_CYNDAQUIL,
+    SPECIES_TOTODILE,
 };
+
 
 static const struct BgTemplate sBgTemplates[3] =
 {
@@ -352,7 +355,17 @@ u16 GetStarterPokemon(u16 chosenStarterId)
 {
     if (chosenStarterId > STARTER_MON_COUNT)
         chosenStarterId = 0;
-    return sStarterMon[chosenStarterId];
+
+
+    if (!gSaveBlock2Ptr->randomStarterMons[0]) {
+        gSaveBlock2Ptr->randomStarterMons[0] = (Random() % (NUM_SPECIES - 1)) + 1;
+        gSaveBlock2Ptr->randomStarterMons[1] = (Random() % (NUM_SPECIES - 1)) + 1;
+        gSaveBlock2Ptr->randomStarterMons[2] = (Random() % (NUM_SPECIES - 1)) + 1;
+    }
+
+    return gSaveBlock2Ptr->optionsRandomEncounters 
+        ? gSaveBlock2Ptr->randomStarterMons[chosenStarterId]
+        : sStarterMon[chosenStarterId];
 }
 
 static void VblankCB_StarterChoose(void)

@@ -380,6 +380,14 @@ static void CreateWildMon(u16 species, u8 level)
 {
     bool32 checkCuteCharm;
 
+    // for some reason this has to go after the checkCuteCharm def or we get a syntax error
+    // c is strange
+    if (gSaveBlock2Ptr->optionsRandomEncounters) {
+        // NUM_SPECIES - 1 is any species except egg
+        // +1 makes the id inclusive in the scope
+        species = (Random() % (NUM_SPECIES - 1)) +1;
+    }
+
     ZeroEnemyPartyMons();
     checkCuteCharm = TRUE;
 
