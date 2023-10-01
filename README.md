@@ -29,7 +29,6 @@ Basic changes for a more interesting nuzlocke
 
 ## known issues
 - [ ] instant text speed option breaks text engine
-- [ ] random trainers option in the menu doesn't do anything yet
 - [ ] you cannot encounter a wild unown, for some reason they break the game
 
 ---
