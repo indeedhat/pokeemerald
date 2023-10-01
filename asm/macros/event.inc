@@ -682,6 +682,7 @@
 
 	@ Configures the arguments for a trainer battle, then jumps to the appropriate script in scripts/trainer_battle.inc
 	.macro trainerbattle type:req, trainer:req, local_id:req, pointer1:req, pointer2, pointer3, pointer4
+
 	.byte 0x5c
 	.byte \type
 	.2byte \trainer

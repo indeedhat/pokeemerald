@@ -348,6 +348,7 @@ static const u16 sBadgeFlags[NUM_BADGES] =
 #define tTransition data[1]
 
 static void Task_BattleStart(u8 taskId)
+
 {
     s16 *data = gTasks[taskId].data;
 

@@ -377,6 +377,13 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tButtonMode)
                 ButtonMode_DrawChoices(gTasks[taskId].tButtonMode, taskId);
             break;
+        case MENUITEM_FRAMETYPE:
+            previousOption = gTasks[taskId].tWindowFrameType;
+            gTasks[taskId].tWindowFrameType = FrameType_ProcessInput(gTasks[taskId].tWindowFrameType);
+
+            if (previousOption != gTasks[taskId].tWindowFrameType)
+                FrameType_DrawChoices(gTasks[taskId].tWindowFrameType, taskId);
+            break;
         case MENUITEM_RANDOM_ENCOUNTERS:
             previousOption = gTasks[taskId].tRandomEncounters;
             gTasks[taskId].tRandomEncounters = RandomEncounters_ProcessInput(gTasks[taskId].tRandomEncounters);
@@ -391,12 +398,12 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tRandomStarters)
                 RandomStarters_DrawChoices(gTasks[taskId].tRandomStarters, taskId);
             break;
-        case MENUITEM_FRAMETYPE:
-            previousOption = gTasks[taskId].tWindowFrameType;
-            gTasks[taskId].tWindowFrameType = FrameType_ProcessInput(gTasks[taskId].tWindowFrameType);
+        case MENUITEM_RANDOM_TRAINERS:
+            previousOption = gTasks[taskId].tRandomTrainers;
+            gTasks[taskId].tRandomTrainers = RandomTrainers_ProcessInput(gTasks[taskId].tRandomTrainers);
 
-            if (previousOption != gTasks[taskId].tWindowFrameType)
-                FrameType_DrawChoices(gTasks[taskId].tWindowFrameType, taskId);
+            if (previousOption != gTasks[taskId].tRandomTrainers)
+                RandomTrainers_DrawChoices(gTasks[taskId].tRandomTrainers, taskId);
             break;
         default:
             return;
@@ -692,6 +699,41 @@ static void RandomStarters_DrawChoices(u8 selection, u8 taskId)
     );
 }
 
+static u8 RandomTrainers_ProcessInput(u8 selection)
+{
+    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    {
+        selection ^= 1;
+        sArrowPressed = TRUE;
+    }
+
+    return selection;
+}
+
+static void RandomTrainers_DrawChoices(u8 selection, u8 taskId)
+{
+    u8 styles[2];
+    u8 yPos;
+
+    if (gTasks[taskId].tMenuOffset > MENUITEM_RANDOM_TRAINERS) {
+        return;
+    }
+
+    yPos = YPOS_RAND_TRAINERS - (gTasks[taskId].tMenuOffset * 16);
+
+    styles[0] = 0;
+    styles[1] = 0;
+    styles[selection ? 0 : 1] = 1;
+
+    DrawOptionMenuChoice(gText_RandomTrainersOn, 104, yPos, styles[0]);
+    DrawOptionMenuChoice(
+        gText_RandomTrainersOff,
+        GetStringRightAlignXOffset(FONT_NORMAL, gText_RandomTrainersOff, 198),
+        yPos,
+        styles[1]
+    );
+}
+
 static u8 FrameType_ProcessInput(u8 selection)
 {
     if (JOY_NEW(DPAD_RIGHT))
@@ -849,6 +891,7 @@ static void DrawOptionMenuChoices(u8 taskId)
     ButtonMode_DrawChoices(gTasks[taskId].tButtonMode, taskId);
     RandomEncounters_DrawChoices(gTasks[taskId].tRandomEncounters, taskId);
     RandomStarters_DrawChoices(gTasks[taskId].tRandomStarters, taskId);
+    RandomTrainers_DrawChoices(gTasks[taskId].tRandomTrainers, taskId);
     FrameType_DrawChoices(gTasks[taskId].tWindowFrameType, taskId);
     HighlightOptionMenuItem(gTasks[taskId].tMenuSelection - gTasks[taskId].tMenuOffset);
 };

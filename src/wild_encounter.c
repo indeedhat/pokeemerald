@@ -388,13 +388,10 @@ static void CreateWildMon(u16 species, u8 level)
 
     // for some reason this has to go after the checkCuteCharm def or we get a syntax error
     // c is strange
-    DebugPrintf("CreateWildMon(%d, %d)", species, level);
     if (gSaveBlock2Ptr->optionsRandomEncounters == RANDOM_ENCOUNTERS_ON) {
         species = RandomPokemonSpecies();
-        DebugPrintf("RandomPokemonSpecies: %d", species);
     } else if (gSaveBlock2Ptr->optionsRandomEncounters == RANDOM_ENCOUNTERS_SEEDED) {
         species = RandomSeededPokemonSpecies(species);
-        DebugPrintf("RandomSeededPokemonSpecies: %d", species);
     }
 
     ZeroEnemyPartyMons();
@@ -428,7 +425,6 @@ static void CreateWildMon(u16 species, u8 level)
         return;
     }
 
-    DebugPrintf("about to create mon %d", species);
 
     CreateMonWithNature(&gEnemyParty[0], species, level, USE_RANDOM_IVS, PickWildMonNature());
 }
