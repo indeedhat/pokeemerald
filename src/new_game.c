@@ -97,14 +97,18 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
     gSaveBlock2Ptr->optionsRandomEncounters = 0;
+    gSaveBlock2Ptr->optionsRandomStarters = 0;
+    gSaveBlock2Ptr->optionsRandomTrainers = 0;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
 }
 
-static void SetRandomStarters(void)
+static void SetRandomSeeds(void)
 {
     gSaveBlock2Ptr->randomStarterMons[0] = RandomPokemonSpecies();
     gSaveBlock2Ptr->randomStarterMons[1] = RandomPokemonSpecies();
     gSaveBlock2Ptr->randomStarterMons[2] = RandomPokemonSpecies();
+
+    gSaveBlock2Ptr->wildEncounterSeed = RandomPokemonSpecies();
 }
 
 static void ClearPokedexFlags(void)
@@ -214,7 +218,7 @@ void NewGameInitData(void)
     WipeTrainerNameRecords();
     ResetTrainerHillResults();
     ResetContestLinkResults();
-    SetRandomStarters();
+    SetRandomSeeds();
     SetDefaultOptions();
 }
 

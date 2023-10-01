@@ -7134,15 +7134,23 @@ u8 *MonSpritesGfxManager_GetSpritePtr(u8 managerId, u8 spriteNum)
 
 u16 RandomPokemonSpecies()
 {
-    u16 species = SPECIES_NONE;
-    do {
-        species = (Random() % SPECIES_UNOWN_QMARK) +1;
-    } while (
-        species < SPECIES_BULBASAUR 
-            || species > SPECIES_UNOWN_QMARK
-            || species == SPECIES_EGG
-            || (species >= SPECIES_OLD_UNOWN_B && species <= SPECIES_OLD_UNOWN_Z)
-    );
+    u16 species = (Random() % SPECIES_CHIMECHO) +1;
+
+    if (species >= SPECIES_OLD_UNOWN_B && species <= SPECIES_OLD_UNOWN_Z) {
+        species += 25;
+    }
+
+    return species;
+}
+
+u16 RandomSeededPokemonSpecies(u16 species)
+{
+    species += gSaveBlock2Ptr->wildEncounterSeed;
+    species = (species % SPECIES_CHIMECHO) +1;
+
+    if (species >= SPECIES_OLD_UNOWN_B && species <= SPECIES_OLD_UNOWN_Z) {
+        species += 25;
+    }
 
     return species;
 }

@@ -36,6 +36,12 @@ extern const u8 EventScript_RepelWoreOff[];
 #define NUM_FISHING_SPOTS (NUM_FISHING_SPOTS_1 + NUM_FISHING_SPOTS_2 + NUM_FISHING_SPOTS_3)
 
 enum {
+    RANDOM_ENCOUNTERS_OFF,
+    RANDOM_ENCOUNTERS_SEEDED,
+    RANDOM_ENCOUNTERS_ON,
+};
+
+enum {
     WILD_AREA_LAND,
     WILD_AREA_WATER,
     WILD_AREA_ROCKS,
@@ -382,10 +388,13 @@ static void CreateWildMon(u16 species, u8 level)
 
     // for some reason this has to go after the checkCuteCharm def or we get a syntax error
     // c is strange
-    if (gSaveBlock2Ptr->optionsRandomEncounters) {
-        // NUM_SPECIES - 1 is any species except egg
-        // +1 makes the id inclusive in the scope
+    DebugPrintf("CreateWildMon(%d, %d)", species, level);
+    if (gSaveBlock2Ptr->optionsRandomEncounters == RANDOM_ENCOUNTERS_ON) {
         species = RandomPokemonSpecies();
+        DebugPrintf("RandomPokemonSpecies: %d", species);
+    } else if (gSaveBlock2Ptr->optionsRandomEncounters == RANDOM_ENCOUNTERS_SEEDED) {
+        species = RandomSeededPokemonSpecies(species);
+        DebugPrintf("RandomSeededPokemonSpecies: %d", species);
     }
 
     ZeroEnemyPartyMons();
@@ -418,6 +427,8 @@ static void CreateWildMon(u16 species, u8 level)
         CreateMonWithGenderNatureLetter(&gEnemyParty[0], species, level, USE_RANDOM_IVS, gender, PickWildMonNature(), 0);
         return;
     }
+
+    DebugPrintf("about to create mon %d", species);
 
     CreateMonWithNature(&gEnemyParty[0], species, level, USE_RANDOM_IVS, PickWildMonNature());
 }

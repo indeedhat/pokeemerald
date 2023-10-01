@@ -4,25 +4,34 @@ Basic changes for a more interesting nuzlocke
 - max item qty increased to 999 in bag
 - start with 999 rare candies
 - text speed set to fast by default
-- added option for random encounters/starters
-    - this does not effect trainer battles, only wild encounters
+- options menu is now scrolable with more nuzlocke specific settings
+- added option for random encounters
+    - on: all encounters will be randomly selected at battle time
+    - seeded: all wild encounters will have their pokemon species offset by a seeded random number  
+    meaning that each route will still have fixed pokemon avalable but they will be randomly offset from the defaults
+- added option for random starters
+    - this option must be selected from the options menu befor picking your starter mon... obviously
+- you are forced into the nickname screen on captuning a mon
+    - you can still skip this by exiting the screen without setting a name
 
 This is a decompilation of Pokémon Emerald.
 
 ## Wishlist
-- [ ] update the bag to have stacks of 999
 - [ ] include trainer/gyms in the random pokemon option
-- [ ] add uber repels that last longer
-- [ ] force player to name all pokemon
-- [ ] auto move pokemon to the box when they die
-- [ ] add an indicator to show if you have had your encounter in the current map
-- [ ] limit water pokemon to fishing encounters... maybe
-- [ ] fix the instant text speed setting
-- [ ] update settings page to have more nuzlocke specific settings
-- [ ] update settings page to be scrollable for more settings
 - [ ] don't let rare candies level you up higher than the highest pokemon you have defeated
-- [ ] limit each route to only a few species
+- [ ] add an indicator to show if you have had your encounter in the current map
 
+## under consideration
+- [ ] auto move pokemon to the box when they die
+- [ ] add uber repels that last longer
+- [ ] limit water pokemon to fishing encounters... maybe
+
+## known issues
+- [ ] instant text speed option breaks text engine
+- [ ] random trainers option in the menu doesn't do anything yet
+- [ ] you cannot encounter a wild unown, for some reason they break the game
+
+---
 It builds the following ROM:
 
 * [**pokeemerald.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=1961) `sha1: f3ae088181bf583e55daf962a92bb46f4f1d07b7`

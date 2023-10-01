@@ -363,7 +363,7 @@ u16 GetStarterPokemon(u16 chosenStarterId)
         gSaveBlock2Ptr->randomStarterMons[2] = RandomPokemonSpecies();
     }
 
-    return gSaveBlock2Ptr->optionsRandomEncounters 
+    return gSaveBlock2Ptr->optionsRandomStarters 
         ? gSaveBlock2Ptr->randomStarterMons[chosenStarterId]
         : sStarterMon[chosenStarterId];
 }

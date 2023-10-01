@@ -26,8 +26,6 @@ EWRAM_DATA struct BagPocket gBagPockets[POCKETS_COUNT] = {0};
 static const struct ItemSlot sNewGameBagItems[] =
 {
     { ITEM_RARE_CANDY, 999 },
-    // TODO: remove
-    { ITEM_MASTER_BALL, 20 },
     { ITEM_NONE, 0 },
 };
 
