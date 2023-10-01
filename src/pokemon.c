@@ -7145,7 +7145,9 @@ u16 RandomPokemonSpecies()
 
 u16 RandomSeededPokemonSpecies(u16 species)
 {
-    species += gSaveBlock2Ptr->wildEncounterSeed;
+    u16 offset = (species * species * species) % 65536;
+
+    species += gSaveBlock2Ptr->wildEncounterSeed + offset;
     species = (species % SPECIES_CHIMECHO) +1;
 
     if (species >= SPECIES_OLD_UNOWN_B && species <= SPECIES_OLD_UNOWN_Z) {

@@ -303,6 +303,7 @@ extern const u8 gText_RandomEncountersOff[];
 extern const u8 gText_RandomStartersOn[];
 extern const u8 gText_RandomStartersOff[];
 extern const u8 gText_RandomTrainersOn[];
+extern const u8 gText_RandomTrainersSeeded[];
 extern const u8 gText_RandomTrainersOff[];
 extern const u8 gText_BattleSceneOn[];
 extern const u8 gText_BattleSceneOff[];

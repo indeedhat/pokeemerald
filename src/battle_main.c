@@ -246,6 +246,12 @@ u8 gHealthboxSpriteIds[MAX_BATTLERS_COUNT];
 u8 gMultiUsePlayerCursor;
 u8 gNumberOfMovesToChoose;
 u8 gBattleControllerData[MAX_BATTLERS_COUNT]; // Used by the battle controllers to store misc sprite/task IDs for each battler
+//
+enum {
+    RANDOM_TRAINERS_OFF,
+    RANDOM_TRAINERS_SEEDED,
+    RANDOM_TRAINERS_ON,
+};
 
 static const struct ScanlineEffectParams sIntroScanlineParams16Bit =
 {
@@ -2009,8 +2015,11 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
 
                 personalityValue += nameHash << 8;
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
-                if (gSaveBlock2Ptr->optionsRandomTrainers) {
-                    CreateMon(&party[i], RandomPokemonSpecies(), partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                if (gSaveBlock2Ptr->optionsRandomTrainers != RANDOM_TRAINERS_OFF) {
+                    u16 species = gSaveBlock2Ptr->optionsRandomTrainers == RANDOM_TRAINERS_ON
+                        ? RandomPokemonSpecies()
+                        : RandomSeededPokemonSpecies(partyData[i].species);
+                    CreateMon(&party[i],species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
                 } else {
                     CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
                 }
@@ -2026,8 +2035,11 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 personalityValue += nameHash << 8;
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
 
-                if (gSaveBlock2Ptr->optionsRandomTrainers) {
-                    CreateMon(&party[i], RandomPokemonSpecies(), partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                if (gSaveBlock2Ptr->optionsRandomTrainers != RANDOM_TRAINERS_OFF) {
+                    u16 species = gSaveBlock2Ptr->optionsRandomTrainers == RANDOM_TRAINERS_ON
+                        ? RandomPokemonSpecies()
+                        : RandomSeededPokemonSpecies(partyData[i].species);
+                    CreateMon(&party[i],species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
                 } else {
                     CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 
@@ -2050,8 +2062,11 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 personalityValue += nameHash << 8;
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
 
-                if (gSaveBlock2Ptr->optionsRandomTrainers) {
-                    CreateMon(&party[i], RandomPokemonSpecies(), partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                if (gSaveBlock2Ptr->optionsRandomTrainers != RANDOM_TRAINERS_OFF) {
+                    u16 species = gSaveBlock2Ptr->optionsRandomTrainers == RANDOM_TRAINERS_ON
+                        ? RandomPokemonSpecies()
+                        : RandomSeededPokemonSpecies(partyData[i].species);
+                    CreateMon(&party[i],species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
                 } else {
                     CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
                 }
@@ -2069,8 +2084,11 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum, bool8 fir
                 personalityValue += nameHash << 8;
                 fixedIV = partyData[i].iv * MAX_PER_STAT_IVS / 255;
 
-                if (gSaveBlock2Ptr->optionsRandomTrainers) {
-                    CreateMon(&party[i], RandomPokemonSpecies(), partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
+                if (gSaveBlock2Ptr->optionsRandomTrainers != RANDOM_TRAINERS_OFF) {
+                    u16 species = gSaveBlock2Ptr->optionsRandomTrainers == RANDOM_TRAINERS_ON
+                        ? RandomPokemonSpecies()
+                        : RandomSeededPokemonSpecies(partyData[i].species);
+                    CreateMon(&party[i],species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
                 } else {
                     CreateMon(&party[i], partyData[i].species, partyData[i].lvl, fixedIV, TRUE, personalityValue, OT_ID_RANDOM_NO_SHINY, 0);
 

@@ -1493,6 +1493,7 @@ const u8 gText_RandomEncountersOff[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}OFF")
 const u8 gText_RandomStartersOn[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ON");
 const u8 gText_RandomStartersOff[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}OFF");
 const u8 gText_RandomTrainersOn[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ON");
+const u8 gText_RandomTrainersSeeded[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}SEEDED");
 const u8 gText_RandomTrainersOff[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}OFF");
 const u8 gText_BattleSceneOn[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}ON");
 const u8 gText_BattleSceneOff[] = _("{COLOR GREEN}{SHADOW LIGHT_GREEN}OFF");

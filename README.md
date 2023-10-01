@@ -1,6 +1,7 @@
 # Pokémon Emerald Rom hack
 Basic changes for a more interesting nuzlocke
 
+## Added Features
 - max item qty increased to 999 in bag
 - start with 999 rare candies
 - text speed set to fast by default
@@ -9,15 +10,15 @@ Basic changes for a more interesting nuzlocke
     - on: all encounters will be randomly selected at battle time
     - seeded: all wild encounters will have their pokemon species offset by a seeded random number  
     meaning that each route will still have fixed pokemon avalable but they will be randomly offset from the defaults
+- added option for random trainers
+    - on: trainers mons will be randomly generated each time you battle them
+    - seeded: trainer mons will be generated based on a seed, they will be random to each playthrough but consistent between battles
 - added option for random starters
     - this option must be selected from the options menu befor picking your starter mon... obviously
 - you are forced into the nickname screen on captuning a mon
     - you can still skip this by exiting the screen without setting a name
 
-This is a decompilation of Pokémon Emerald.
-
 ## Wishlist
-- [ ] include trainer/gyms in the random pokemon option
 - [ ] don't let rare candies level you up higher than the highest pokemon you have defeated
 - [ ] add an indicator to show if you have had your encounter in the current map
 
@@ -32,6 +33,8 @@ This is a decompilation of Pokémon Emerald.
 - [ ] you cannot encounter a wild unown, for some reason they break the game
 
 ---
+
+This is a decompilation of Pokémon Emerald.
 It builds the following ROM:
 
 * [**pokeemerald.gba**](https://datomatic.no-intro.org/index.php?page=show_record&s=23&n=1961) `sha1: f3ae088181bf583e55daf962a92bb46f4f1d07b7`

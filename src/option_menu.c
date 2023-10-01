@@ -701,18 +701,31 @@ static void RandomStarters_DrawChoices(u8 selection, u8 taskId)
 
 static u8 RandomTrainers_ProcessInput(u8 selection)
 {
-    if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT))
+    if (JOY_NEW(DPAD_RIGHT))
     {
-        selection ^= 1;
+        if (selection <= 1)
+            selection++;
+        else
+            selection = 0;
+
         sArrowPressed = TRUE;
     }
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        if (selection != 0)
+            selection--;
+        else
+            selection = 2;
 
+        sArrowPressed = TRUE;
+    }
     return selection;
 }
 
 static void RandomTrainers_DrawChoices(u8 selection, u8 taskId)
 {
-    u8 styles[2];
+    s32 widthOn, widthSeeded, widthOff, xSeeded;
+    u8 styles[3];
     u8 yPos;
 
     if (gTasks[taskId].tMenuOffset > MENUITEM_RANDOM_TRAINERS) {
@@ -723,15 +736,20 @@ static void RandomTrainers_DrawChoices(u8 selection, u8 taskId)
 
     styles[0] = 0;
     styles[1] = 0;
-    styles[selection ? 0 : 1] = 1;
+    styles[2] = 0;
+    styles[selection] = 1;
 
-    DrawOptionMenuChoice(gText_RandomTrainersOn, 104, yPos, styles[0]);
-    DrawOptionMenuChoice(
-        gText_RandomTrainersOff,
-        GetStringRightAlignXOffset(FONT_NORMAL, gText_RandomTrainersOff, 198),
-        yPos,
-        styles[1]
-    );
+    DrawOptionMenuChoice(gText_RandomTrainersOff, 104, yPos, styles[0]);
+
+    widthOff = GetStringWidth(FONT_NORMAL, gText_RandomTrainersOff, 0);
+    widthSeeded = GetStringWidth(FONT_NORMAL, gText_RandomTrainersSeeded, 0);
+    widthOn = GetStringWidth(FONT_NORMAL, gText_RandomTrainersOn, 0);
+
+    widthSeeded -= 94;
+    xSeeded = (widthOn - widthSeeded - widthOff) / 2 + 114;
+    DrawOptionMenuChoice(gText_RandomTrainersSeeded, xSeeded, yPos, styles[1]);
+
+    DrawOptionMenuChoice(gText_RandomTrainersOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_RandomTrainersOn, 198), yPos, styles[2]);
 }
 
 static u8 FrameType_ProcessInput(u8 selection)
