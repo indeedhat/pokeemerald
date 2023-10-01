@@ -1,7 +1,8 @@
 # Pokémon Emerald Rom hack
 Basic changes for a more interesting nuzlocke
 
-- start with 999 rare candies in the box
+- max item qty increased to 999 in bag
+- start with 999 rare candies
 - text speed set to fast by default
 - added option for random encounters/starters
     - this does not effect trainer battles, only wild encounters

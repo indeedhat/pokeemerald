@@ -23,6 +23,12 @@ EWRAM_DATA struct BagPocket gBagPockets[POCKETS_COUNT] = {0};
 #include "data/text/item_descriptions.h"
 #include "data/items.h"
 
+static const struct ItemSlot sNewGameBagItems[] =
+{
+    { ITEM_RARE_CANDY, 999 },
+    { ITEM_NONE, 0 },
+};
+
 static u16 GetBagItemQuantity(u16 *quantity)
 {
     return gSaveBlock2Ptr->encryptionKey ^ *quantity;
@@ -942,4 +948,12 @@ ItemUseFunc ItemId_GetBattleFunc(u16 itemId)
 u8 ItemId_GetSecondaryId(u16 itemId)
 {
     return gItems[SanitizeItemId(itemId)].secondaryId;
+}
+
+void NewGameBagItems(void)
+{
+    u8 i = 0;
+    for(; sNewGameBagItems[i].itemId != ITEM_NONE; i++) {
+        AddBagItem(sNewGameBagItems[i].itemId, sNewGameBagItems[i].quantity);
+    }
 }
