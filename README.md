@@ -15,11 +15,13 @@ Basic changes for a more interesting nuzlocke
     - seeded: trainer mons will be generated based on a seed, they will be random to each playthrough but consistent between battles
 - added option for random starters
     - this option must be selected from the options menu befor picking your starter mon... obviously
+- added option to cap rare candy levels
+    - can cap to highest level mon player has defeated
+    - can cap to level of next gym/elite 4's ace
 - you are forced into the nickname screen on captuning a mon
     - you can still skip this by exiting the screen without setting a name
 
 ## Wishlist
-- [ ] don't let rare candies level you up higher than the highest pokemon you have defeated
 - [ ] add an indicator to show if you have had your encounter in the current map
 
 ## under consideration
