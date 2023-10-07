@@ -518,7 +518,8 @@ struct SaveBlock2
              u16 optionsRandomStarters:1; // if starter pokemon will be randomly generated
              u16 optionsRandomTrainers:2; // if trainer pokemon will be rangomly generated
              u8 optionsRareCandyLimit:2;
-             //u16 padding2:14;
+             u8 optionsEncounterTracker;
+             //u8 padding2:5;
     /*0x18*/ struct Pokedex pokedex;
     /*0x90*/ //u8 filler_90[0x2]; 
     /*0x91*/ u16 randomStarterMons[3]; // ids for each of the random starters

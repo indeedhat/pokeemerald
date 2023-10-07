@@ -308,6 +308,8 @@ extern const u8 gText_RandomTrainersOff[];
 extern const u8 gText_CandyLimitNextGym[];
 extern const u8 gText_CandyLimitDefeatedLevel[];
 extern const u8 gText_CandyLimitOff[];
+extern const u8 gText_EncounterTrackerOn[];
+extern const u8 gText_EncounterTrackerOff[];
 extern const u8 gText_BattleSceneOn[];
 extern const u8 gText_BattleSceneOff[];
 extern const u8 gText_BattleStyleShift[];
@@ -330,6 +332,7 @@ extern const u8 gText_RandomEncounters[];
 extern const u8 gText_RandomStarters[];
 extern const u8 gText_RandomTrainers[];
 extern const u8 gText_CandyLimit[];
+extern const u8 gText_EncounterTracker[];
 extern const u8 gText_OptionMenuCancel[];
 extern const u8 gText_ButtonMode[];
 
