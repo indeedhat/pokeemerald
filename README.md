@@ -18,11 +18,13 @@ Basic changes for a more interesting nuzlocke
 - added option to cap rare candy levels
     - can cap to highest level mon player has defeated
     - can cap to level of next gym/elite 4's ace
+- added option to track route encounters
+    - When set a the pokeball icon will be displayed on any wild encounter if you have already had your encounter for this route (even if you haven't caught the mon you are battling)  
+    Encounters will only be tracked if you haven't already caught the pokemon
 - you are forced into the nickname screen on captuning a mon
     - you can still skip this by exiting the screen without setting a name
 
 ## Wishlist
-- [ ] add an indicator to show if you have had your encounter in the current map
 
 ## under consideration
 - [ ] auto move pokemon to the box when they die
