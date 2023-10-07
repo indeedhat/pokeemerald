@@ -1901,6 +1901,10 @@ bool8 HandleFaintedMonActions(void)
                  && !(gBattleStruct->givenExpMons & gBitTable[gBattlerPartyIndexes[gBattleStruct->faintedActionsBattlerId]])
                  && !(gAbsentBattlerFlags & gBitTable[gBattleStruct->faintedActionsBattlerId]))
                 {
+                    if (gBattleMons[gBattleStruct->faintedActionsBattlerId].level > gSaveBlock2Ptr->maxMonDefeated) {
+                        gSaveBlock2Ptr->maxMonDefeated = gBattleMons[gBattleStruct->faintedActionsBattlerId].level;
+                    }
+
                     BattleScriptExecute(BattleScript_GiveExp);
                     gBattleStruct->faintedActionsState = 2;
                     return TRUE;

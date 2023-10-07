@@ -28,6 +28,7 @@
 #define tRandomEncounters data[8]
 #define tRandomStarters data[9]
 #define tRandomTrainers data[10]
+#define tCandyLimit data[11]
 
 
 enum
@@ -41,6 +42,7 @@ enum
     MENUITEM_RANDOM_ENCOUNTERS,
     MENUITEM_RANDOM_STARTERS,
     MENUITEM_RANDOM_TRAINERS,
+    MENUITEM_CANDY_LIMIT,
     MENUITEM_CANCEL,
     MENUITEM_COUNT,
 };
@@ -61,6 +63,7 @@ enum
 #define YPOS_RAND_ENCOUNTER    (MENUITEM_RANDOM_ENCOUNTERS * 16)
 #define YPOS_RAND_STARTERS    (MENUITEM_RANDOM_STARTERS * 16)
 #define YPOS_RAND_TRAINERS    (MENUITEM_RANDOM_TRAINERS * 16)
+#define YPOS_CANDY_LIMIT    (MENUITEM_CANDY_LIMIT * 16)
 
 static void Task_OptionMenuFadeIn(u8 taskId);
 static void Task_OptionMenuProcessInput(u8 taskId);
@@ -81,6 +84,8 @@ static u8 RandomStarters_ProcessInput(u8 selection);
 static void RandomStarters_DrawChoices(u8 selection, u8 taskId);
 static u8 RandomTrainers_ProcessInput(u8 selection);
 static void RandomTrainers_DrawChoices(u8 selection, u8 taskId);
+static u8 CandyLimit_ProcessInput(u8 selection);
+static void CandyLimit_DrawChoices(u8 selection, u8 taskId);
 static u8 FrameType_ProcessInput(u8 selection);
 static void FrameType_DrawChoices(u8 selection, u8 taskId);
 static u8 ButtonMode_ProcessInput(u8 selection);
@@ -107,6 +112,7 @@ static const u8 *const sOptionMenuItemsNames[MENUITEM_COUNT] =
     [MENUITEM_RANDOM_ENCOUNTERS]   = gText_RandomEncounters,
     [MENUITEM_RANDOM_STARTERS]   = gText_RandomStarters,
     [MENUITEM_RANDOM_TRAINERS]   = gText_RandomTrainers,
+    [MENUITEM_CANDY_LIMIT]   = gText_CandyLimit,
     [MENUITEM_CANCEL]      = gText_OptionMenuCancel,
 };
 
@@ -260,6 +266,7 @@ void CB2_InitOptionMenu(void)
         gTasks[taskId].tRandomEncounters = gSaveBlock2Ptr->optionsRandomEncounters;
         gTasks[taskId].tRandomStarters = gSaveBlock2Ptr->optionsRandomStarters;
         gTasks[taskId].tRandomTrainers = gSaveBlock2Ptr->optionsRandomTrainers;
+        gTasks[taskId].tCandyLimit = gSaveBlock2Ptr->optionsRareCandyLimit;
 
         DrawOptionMenuChoices(taskId);
 
@@ -304,7 +311,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             }
         } else {
             gTasks[taskId].tMenuSelection = MENUITEM_CANCEL;
-            gTasks[taskId].tMenuOffset = MENUITEM_CANCEL - MENUITEM_DISPLAY_COUNT;
+            gTasks[taskId].tMenuOffset = MENUITEM_CANCEL - (MENUITEM_DISPLAY_COUNT -1);
             offsetChanged = TRUE;
         }
 
@@ -405,6 +412,13 @@ static void Task_OptionMenuProcessInput(u8 taskId)
             if (previousOption != gTasks[taskId].tRandomTrainers)
                 RandomTrainers_DrawChoices(gTasks[taskId].tRandomTrainers, taskId);
             break;
+        case MENUITEM_CANDY_LIMIT:
+            previousOption = gTasks[taskId].tCandyLimit;
+            gTasks[taskId].tCandyLimit = CandyLimit_ProcessInput(gTasks[taskId].tCandyLimit);
+
+            if (previousOption != gTasks[taskId].tCandyLimit)
+                CandyLimit_DrawChoices(gTasks[taskId].tCandyLimit, taskId);
+            break;
         default:
             return;
         }
@@ -431,6 +445,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gSaveBlock2Ptr->optionsRandomEncounters = gTasks[taskId].tRandomEncounters;
     gSaveBlock2Ptr->optionsRandomStarters = gTasks[taskId].tRandomStarters;
     gSaveBlock2Ptr->optionsRandomTrainers = gTasks[taskId].tRandomTrainers;
+    gSaveBlock2Ptr->optionsRareCandyLimit = gTasks[taskId].tCandyLimit;
 
     BeginNormalPaletteFade(PALETTES_ALL, 0, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_OptionMenuFadeOut;
@@ -752,6 +767,64 @@ static void RandomTrainers_DrawChoices(u8 selection, u8 taskId)
     DrawOptionMenuChoice(gText_RandomTrainersOn, GetStringRightAlignXOffset(FONT_NORMAL, gText_RandomTrainersOn, 198), yPos, styles[2]);
 }
 
+static u8 CandyLimit_ProcessInput(u8 selection)
+{
+    if (JOY_NEW(DPAD_RIGHT))
+    {
+        if (selection <= 1)
+            selection++;
+        else
+            selection = 0;
+
+        sArrowPressed = TRUE;
+    }
+    if (JOY_NEW(DPAD_LEFT))
+    {
+        if (selection != 0)
+            selection--;
+        else
+            selection = 2;
+
+        sArrowPressed = TRUE;
+    }
+    return selection;
+}
+
+static void CandyLimit_DrawChoices(u8 selection, u8 taskId)
+{
+    s32 widthBattle, widthGym, widthOff, xGym;
+    u8 styles[3];
+    u8 yPos;
+
+    if (gTasks[taskId].tMenuOffset > MENUITEM_CANDY_LIMIT) {
+        return;
+    }
+
+    yPos = YPOS_CANDY_LIMIT - (gTasks[taskId].tMenuOffset * 16);
+
+    styles[0] = 0;
+    styles[1] = 0;
+    styles[2] = 0;
+    styles[selection] = 1;
+
+    DrawOptionMenuChoice(gText_CandyLimitOff, 104, yPos, styles[0]);
+
+    widthOff = GetStringWidth(FONT_NORMAL, gText_CandyLimitOff, 0);
+    widthGym = GetStringWidth(FONT_NORMAL, gText_CandyLimitNextGym, 0);
+    widthBattle = GetStringWidth(FONT_NORMAL, gText_CandyLimitDefeatedLevel, 0);
+
+    widthGym -= 94;
+    xGym = (widthBattle - widthGym - widthOff) / 2 + 86;
+    DrawOptionMenuChoice(gText_CandyLimitNextGym, xGym, yPos, styles[1]);
+
+    DrawOptionMenuChoice(
+        gText_CandyLimitDefeatedLevel,
+        GetStringRightAlignXOffset(FONT_NORMAL, gText_CandyLimitDefeatedLevel, 198),
+        yPos,
+        styles[2]
+    );
+}
+
 static u8 FrameType_ProcessInput(u8 selection)
 {
     if (JOY_NEW(DPAD_RIGHT))
@@ -910,6 +983,7 @@ static void DrawOptionMenuChoices(u8 taskId)
     RandomEncounters_DrawChoices(gTasks[taskId].tRandomEncounters, taskId);
     RandomStarters_DrawChoices(gTasks[taskId].tRandomStarters, taskId);
     RandomTrainers_DrawChoices(gTasks[taskId].tRandomTrainers, taskId);
+    CandyLimit_DrawChoices(gTasks[taskId].tCandyLimit, taskId);
     FrameType_DrawChoices(gTasks[taskId].tWindowFrameType, taskId);
     HighlightOptionMenuItem(gTasks[taskId].tMenuSelection - gTasks[taskId].tMenuOffset);
 };

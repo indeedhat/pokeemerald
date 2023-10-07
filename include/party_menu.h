@@ -89,5 +89,6 @@ void MoveDeleterForgetMove(void);
 void BufferMoveDeleterNicknameAndMove(void);
 void GetNumMovesSelectedMonHas(void);
 void MoveDeleterChooseMoveToForget(void);
+u8 NextGymMaxLevel(void);
 
 #endif // GUARD_PARTY_MENU_H

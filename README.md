@@ -29,7 +29,7 @@ Basic changes for a more interesting nuzlocke
 
 ## known issues
 - [ ] instant text speed option breaks text engine
-- [ ] you cannot encounter a wild unown, for some reason they break the game
+- [ ] there are some edge cases where the options meun scroll gets wonky, still works tho
 
 ---
 

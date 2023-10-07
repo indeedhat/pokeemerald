@@ -72,6 +72,7 @@
 #include "constants/party_menu.h"
 #include "constants/rgb.h"
 #include "constants/songs.h"
+#include "constants/flags.h"
 
 enum {
     MENU_SUMMARY,
@@ -143,6 +144,12 @@ enum {
     TAG_POKEBALL = 1200,
     TAG_POKEBALL_SMALL,
     TAG_STATUS_ICONS,
+};
+
+enum {
+    CANDY_LIMIT_OFF,
+    CANDY_LIMIT_GYM,
+    CANDY_LIMIT_BATTLE,
 };
 
 #define TAG_HELD_ITEM 55120
@@ -4958,7 +4965,7 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
     u16 *itemPtr = &gSpecialVar_ItemId;
     bool8 cannotUseEffect;
 
-    if (GetMonData(mon, MON_DATA_LEVEL) != MAX_LEVEL)
+    if (GetMonData(mon, MON_DATA_LEVEL)!= MAX_LEVEL)
     {
         BufferMonStatsToTaskData(mon, arrayPtr);
         cannotUseEffect = ExecuteTableBasedItemEffect_(gPartyMenu.slotId, *itemPtr, 0);
@@ -4975,6 +4982,22 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
         DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
         ScheduleBgCopyTilemapToVram(2);
         gTasks[taskId].func = task;
+    }
+    else if ( 
+        gSaveBlock2Ptr->optionsRareCandyLimit == CANDY_LIMIT_BATTLE
+        && GetMonData(mon, MON_DATA_LEVEL)>= gSaveBlock2Ptr->maxMonDefeated
+    ) {
+        DisplayPartyMenuMessage(gText_RareCandyLimitReached, TRUE);
+        ScheduleBgCopyTilemapToVram(2);
+        gTasks[taskId].func = Task_DisplayLevelUpStatsPg1;
+    }
+    else if (
+        gSaveBlock2Ptr->optionsRareCandyLimit == CANDY_LIMIT_GYM
+        && GetMonData(mon, MON_DATA_LEVEL) >= NextGymMaxLevel()
+    ) {
+        DisplayPartyMenuMessage(gText_RareCandyLimitReached, TRUE);
+        ScheduleBgCopyTilemapToVram(2);
+        gTasks[taskId].func = Task_DisplayLevelUpStatsPg1;
     }
     else
     {
@@ -6427,4 +6450,58 @@ void IsLastMonThatKnowsSurf(void)
         if (AnyStorageMonWithMove(move) != TRUE)
             gSpecialVar_Result = TRUE;
     }
+}
+
+u8 NextGymMaxLevel()
+{
+    if (FlagGet(FLAG_DEFEATED_ELITE_4_DRAKE)) 
+    {
+        return 58;
+    }
+    else if (FlagGet(FLAG_DEFEATED_ELITE_4_GLACIA)) 
+    {
+        return 55;
+    }
+    else if (FlagGet(FLAG_DEFEATED_ELITE_4_PHOEBE)) 
+    {
+        return 53;
+    }
+    else if (FlagGet(FLAG_DEFEATED_ELITE_4_SIDNEY)) 
+    {
+        return 51;
+    }
+    else if (FlagGet(FLAG_DEFEATED_SOOTOPOLIS_GYM)) 
+    {
+        return 49;
+    } 
+    else if (FlagGet(FLAG_DEFEATED_MOSSDEEP_GYM)) 
+    {
+        return 46;
+    }
+    else if (FlagGet(FLAG_DEFEATED_FORTREE_GYM)) 
+    {
+        return 42;
+    }
+    else if (FlagGet(FLAG_DEFEATED_PETALBURG_GYM)) 
+    {
+        return 33;
+    }
+    else if (FlagGet(FLAG_DEFEATED_LAVARIDGE_GYM)) 
+    {
+        return 31;
+    }
+    else if (FlagGet(FLAG_DEFEATED_MAUVILLE_GYM)) 
+    {
+        return 29;
+    }
+    else if (FlagGet(FLAG_DEFEATED_DEWFORD_GYM)) 
+    {
+        return 24;
+    }
+    else if (FlagGet(FLAG_DEFEATED_RUSTBORO_GYM)) 
+    {
+        return 19;
+    } 
+
+    return 5;
 }

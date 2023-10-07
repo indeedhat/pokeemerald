@@ -99,6 +99,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsRandomEncounters = 0;
     gSaveBlock2Ptr->optionsRandomStarters = 0;
     gSaveBlock2Ptr->optionsRandomTrainers = 0;
+    gSaveBlock2Ptr->maxMonDefeated = 0;
     gSaveBlock2Ptr->regionMapZoom = FALSE;
 }
 

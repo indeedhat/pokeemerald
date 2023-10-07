@@ -517,11 +517,13 @@ struct SaveBlock2
              u16 optionsRandomEncounters:2; // if wild encounters will be randomly generated [DEFAULT/RANDOM/SEEDED]
              u16 optionsRandomStarters:1; // if starter pokemon will be randomly generated
              u16 optionsRandomTrainers:2; // if trainer pokemon will be rangomly generated
-             //u16 padding2;
+             u8 optionsRareCandyLimit:2;
+             //u16 padding2:14;
     /*0x18*/ struct Pokedex pokedex;
-    /*0x90*/ u8 filler_90[0x4]; 
-    /*0x91*/ u16 randomStarterMons[3];
-    /*0x94*/ u16 wildEncounterSeed;
+    /*0x90*/ //u8 filler_90[0x2]; 
+    /*0x91*/ u16 randomStarterMons[3]; // ids for each of the random starters
+    /*0x94*/ u16 wildEncounterSeed; // offset used for generating seeded random mon ids
+             u8 maxMonDefeated; // highest level of a mon the trainer has defeated in battle (rare cany limit)
     /*0x98*/ struct Time localTimeOffset;
     /*0xA0*/ struct Time lastBerryTreeUpdate;
     /*0xA8*/ u32 gcnLinkFlags; // Read by Pokemon Colosseum/XD
