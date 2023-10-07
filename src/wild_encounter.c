@@ -21,6 +21,7 @@
 #include "constants/items.h"
 #include "constants/layouts.h"
 #include "constants/weather.h"
+#include "pokedex.h"
 
 extern const u8 EventScript_RepelWoreOff[];
 
@@ -392,6 +393,14 @@ static void CreateWildMon(u16 species, u8 level)
         species = RandomPokemonSpecies();
     } else if (gSaveBlock2Ptr->optionsRandomEncounters == RANDOM_ENCOUNTERS_SEEDED) {
         species = RandomSeededPokemonSpecies(species);
+    }
+
+    // track the encounter
+    gSaveBlock1Ptr->battleEncounterStatus =  GetSetPokedexFlag(SpeciesToNationalPokedexNum(species), FLAG_GET_CAUGHT) 
+        || gSaveBlock1Ptr->routeEncounters[gSaveBlock1Ptr->location.mapGroup];
+
+    if (!gSaveBlock1Ptr->battleEncounterStatus) {
+        gSaveBlock1Ptr->routeEncounters[gSaveBlock1Ptr->location.mapGroup] = 1;
     }
 
     ZeroEnemyPartyMons();

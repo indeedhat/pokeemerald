@@ -1063,7 +1063,9 @@ struct SaveBlock1
     /*0x31DC*/ struct Roamer roamer;
     /*0x31F8*/ struct EnigmaBerry enigmaBerry;
     /*0x322C*/ struct MysteryGiftSave mysteryGift;
-    /*0x3598*/ u8 unused_3598[0x180];
+    /*0x3598*/ u8 unused_3598[0x80];
+               u8 routeEncounters[255]; // This is definately not all be needed but im too lazy to think about it properly
+               u8 battleEncounterStatus; // im just being lazy now
     /*0x3718*/ u32 trainerHillTimes[NUM_TRAINER_HILL_MODES];
     /*0x3728*/ struct RamScript ramScript;
     /*0x3B14*/ struct RecordMixingGift recordMixingGift;
